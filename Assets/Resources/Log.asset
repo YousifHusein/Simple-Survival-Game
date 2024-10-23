@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f01cccb2c080ea45b4d365239347695, type: 3}
+  m_Name: Log
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 7495ea84fa4e6ea468c26db196cc089c, type: 3}
+  itemTag: 0
+  itemModel: {fileID: 919132149155446097, guid: 4f78f6db5046b7140b094302085930ff, type: 3}
+  equipmentPrefab: {fileID: 0}
+  controller: {fileID: 0}
+  isStackable: 1
+  maxStackSize: 20
+  currentStack: 0
+  amountIfCrafted: 0
+  item1: {fileID: 0}
+  item2: {fileID: 0}
+  item3: {fileID: 0}
+  item1Amount: 0
+  item2Amount: 0
+  item3Amount: 0

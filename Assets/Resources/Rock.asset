@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f01cccb2c080ea45b4d365239347695, type: 3}
+  m_Name: Rock
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 08cdec22410655c4ab5d0b197ed51c4b, type: 3}
+  itemTag: 5
+  itemModel: {fileID: 919132149155446097, guid: b239c6442b507fd4aa98249badbc7abe, type: 3}
+  equipmentPrefab: {fileID: 0}
+  controller: {fileID: 9100000, guid: b61f9301f8ca4d84bbf4f04f6829dfe4, type: 2}
+  isStackable: 1
+  maxStackSize: 20
+  currentStack: 0
+  amountIfCrafted: 0
+  item1: {fileID: 0}
+  item2: {fileID: 0}
+  item3: {fileID: 0}
+  item1Amount: 0
+  item2Amount: 0
+  item3Amount: 0
+  damage: 10

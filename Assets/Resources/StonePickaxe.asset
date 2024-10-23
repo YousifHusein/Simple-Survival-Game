@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f01cccb2c080ea45b4d365239347695, type: 3}
+  m_Name: StonePickaxe
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 8984f2d3d99f9bd41ad851b29db7eef8, type: 3}
+  itemTag: 5
+  itemModel: {fileID: 919132149155446097, guid: 4d978972693bf5d47801f446ed7fdf9f, type: 3}
+  equipmentPrefab: {fileID: 0}
+  controller: {fileID: 9100000, guid: b61f9301f8ca4d84bbf4f04f6829dfe4, type: 2}
+  isStackable: 0
+  maxStackSize: 1
+  currentStack: 1
+  amountIfCrafted: 1
+  item1: {fileID: 11400000, guid: b17ab8cc978929f4fbe7b8a808910d0c, type: 2}
+  item2: {fileID: 11400000, guid: db4b487c6dece824e9729fcf40fd6282, type: 2}
+  item3: {fileID: 0}
+  item1Amount: 3
+  item2Amount: 1
+  item3Amount: 0
+  damage: 0
