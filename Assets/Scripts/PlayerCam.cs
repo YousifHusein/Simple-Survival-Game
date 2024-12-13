@@ -12,6 +12,8 @@ public class PlayerCam : MonoBehaviour
     float xRotation;
     float yRotation;
 
+    public Transform inventoryPanel;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -20,14 +22,17 @@ public class PlayerCam : MonoBehaviour
 
     void Update()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * sensX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * sensY;
+        if (!inventoryPanel.gameObject.activeSelf)
+        {
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * sensX;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * sensY;
 
-        yRotation += mouseX;
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            yRotation += mouseX;
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+        }
     }
 }

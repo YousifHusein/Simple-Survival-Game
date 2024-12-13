@@ -6,7 +6,11 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public Sprite sprite;
-    public SlotTag itemTag;
+    public string itemTag;
+    public GameObject projectilePrefab;
+    public int miningLevel;
+    public string itemType;
+    public float foodValue;
 
     [Header("Item Model")]
     public GameObject itemModel;

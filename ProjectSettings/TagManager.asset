@@ -9,6 +9,10 @@ TagManager:
   - Tree
   - Tool
   - Water
+  - Item
+  - Wand
+  - Sword
+  - Food
   layers:
   - Default
   - TransparentFX
@@ -17,10 +21,10 @@ TagManager:
   - Water
   - UI
   - Tree
-  - 
+  - Post Processing
   - 
   - Ground
-  - 
+  - Obstacle
   - 
   - 
   - 

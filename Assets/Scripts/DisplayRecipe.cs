@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
-using static UnityEditor.Progress;
-using System.Linq;
 
 public class DisplayRecipe : MonoBehaviour
 {
@@ -26,28 +23,20 @@ public class DisplayRecipe : MonoBehaviour
     private bool item2Check = false;
     private bool item3Check = false;
 
-    private bool removeItem1 = false;
-    private bool removeItem2 = false;
-    private bool removeItem3 = false;
-
     public Button sticks;
     public Button woodAxe;
     public Button woodPickaxe;
     public Button stoneAxe;
     public Button stonePickaxe;
+    public Button stoneSword;
+    public Button staff;
 
     public Button craftButton;
 
     private Item pickedItem;
 
-    public Inventory inventory;
-    private InventoryItem inventoryItem;
+    public InventoryManager inventoryManager; // Reference to InventoryManager
 
-    private InventoryItem inventoryItem1;
-    private InventoryItem inventoryItem2;
-    private InventoryItem inventoryItem3;
-
-    // Update is called once per frame
     void Start()
     {
         sticks.onClick.AddListener(() => Display(Resources.Load<Item>("Stick")));
@@ -55,6 +44,8 @@ public class DisplayRecipe : MonoBehaviour
         woodPickaxe.onClick.AddListener(() => Display(Resources.Load<Item>("WoodPickaxe")));
         stoneAxe.onClick.AddListener(() => Display(Resources.Load<Item>("StoneAxe")));
         stonePickaxe.onClick.AddListener(() => Display(Resources.Load<Item>("StonePickaxe")));
+        stoneSword.onClick.AddListener(() => Display(Resources.Load<Item>("StoneSword")));
+        staff.onClick.AddListener(() => Display(Resources.Load<Item>("Staff")));
 
         craftButton.onClick.AddListener(Craft);
     }
@@ -112,9 +103,9 @@ public class DisplayRecipe : MonoBehaviour
         item3CurrentStack = 0;
 
         // Sum up the total quantities across all stacks in the inventory for each item
-        CheckAndAddStack(pickedItem.item1, ref item1CurrentStack, ref item1Check, ref removeItem1, ref inventoryItem1, pickedItem.item1Amount);
-        CheckAndAddStack(pickedItem.item2, ref item2CurrentStack, ref item2Check, ref removeItem2, ref inventoryItem2, pickedItem.item2Amount);
-        CheckAndAddStack(pickedItem.item3, ref item3CurrentStack, ref item3Check, ref removeItem3, ref inventoryItem3, pickedItem.item3Amount);
+        CheckAndAddStack(pickedItem.item1, ref item1CurrentStack, ref item1Check, pickedItem.item1Amount);
+        CheckAndAddStack(pickedItem.item2, ref item2CurrentStack, ref item2Check, pickedItem.item2Amount);
+        CheckAndAddStack(pickedItem.item3, ref item3CurrentStack, ref item3Check, pickedItem.item3Amount);
 
         // Handle null cases (no item required)
         item1Check = pickedItem.item1 == null ? true : item1Check;
@@ -124,7 +115,7 @@ public class DisplayRecipe : MonoBehaviour
         // Crafting logic
         if (item1Check && item2Check && item3Check)
         {
-            Inventory.Singleton.SpawnInventoryItem(pickedItem, pickedItem.amountIfCrafted);
+            inventoryManager.AddItem(pickedItem, pickedItem.amountIfCrafted);
 
             // Remove the required amounts from the inventory across multiple stacks
             RemoveItemsFromStacks(pickedItem.item1, pickedItem.item1Amount);
@@ -135,29 +126,21 @@ public class DisplayRecipe : MonoBehaviour
         }
     }
 
-
-    private void RemoveItemsFromStacks(Item item, int amountToRemove)
+    public void RemoveItemsFromStacks(Item item, int amountToRemove)
     {
         if (item == null || amountToRemove <= 0) return;
 
-        // Iterate over all inventory items and remove the required amount across multiple stacks
-        foreach (var tuple in inventory.items.ToList()) // Use ToList() to avoid modification issues during iteration
+        // Iterate over all inventory slots and remove the required amount across multiple stacks
+        foreach (InventorySlot slot in inventoryManager.inventory)
         {
-            InventoryItem inventoryItem = tuple.inventoryItem;
-
-            // Check if this is the correct item by comparing the item names
-            if (inventoryItem.myItem != null && inventoryItem.myItem.name == item.name)
+            if (slot.item != null && slot.item == item)
             {
-                // Check how many items we can remove from this stack
-                int amountToTake = Mathf.Min(inventoryItem.currentStackSize, amountToRemove);
+                int amountToTake = Mathf.Min(slot.quantity, amountToRemove);
 
-                Debug.Log("Removing: " + amountToTake + " from stack with " + inventoryItem.currentStackSize);
-
-                // Remove the calculated amount from the current stack
-                inventoryItem.RemoveFromStack(amountToTake);
-
-                // Decrease the remaining amount to remove
+                slot.RemoveFromStack(amountToTake);
                 amountToRemove -= amountToTake;
+
+                inventoryManager.UpdateSlotUI(inventoryManager.inventory.IndexOf(slot));
 
                 // If we've removed enough, stop
                 if (amountToRemove <= 0)
@@ -184,41 +167,27 @@ public class DisplayRecipe : MonoBehaviour
         item1Check = false;
         item2Check = false;
         item3Check = false;
-
-        inventoryItem1 = null;
-        inventoryItem2 = null;
-        inventoryItem3 = null;
     }
 
-    private bool CheckAndAddStack(Item item, ref int currentStack, ref bool check, ref bool removeItem, ref InventoryItem invItem, int requiredAmount)
+    private void CheckAndAddStack(Item item, ref int currentStack, ref bool check, int requiredAmount)
     {
-        if (item == null) return false;
+        if (item == null) return;
 
         // Iterate over all items in the inventory
-        foreach (var tuple in inventory.items)
+        foreach (InventorySlot slot in inventoryManager.inventory)
         {
-            InventoryItem inventoryItem = tuple.inventoryItem;
-            Debug.Log("Item: " + tuple.item);
-            Debug.Log("Invetnryo Item: " + tuple.inventoryItem);
-
             // If it's the same item, add its stack size
-            if (inventoryItem.myItem == item)
+            if (slot.item == item)
             {
-                Debug.Log("Current stack: " + currentStack + " for item: " + inventoryItem);
-                currentStack += inventoryItem.currentStackSize;
-                Debug.Log("Current stack after: " + currentStack + " for item: " + inventoryItem);
+                currentStack += slot.quantity;
 
-                // If the total stack size reaches or exceeds the required amount, mark it for removal
+                // If the total stack size reaches or exceeds the required amount, mark it as sufficient
                 if (currentStack >= requiredAmount)
                 {
                     check = true;
-                    removeItem = true;
-                    invItem = inventoryItem; // Store the inventory item reference (used for removal)
                     break;  // Exit once we have enough items
                 }
             }
         }
-
-        return check;
     }
 }

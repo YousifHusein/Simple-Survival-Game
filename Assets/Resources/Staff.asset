@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f01cccb2c080ea45b4d365239347695, type: 3}
+  m_Name: Staff
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 1fa58e21c344c0049b460c6989cbd08d, type: 3}
+  itemTag: Wand
+  projectilePrefab: {fileID: 3138492460266898577, guid: a6f22b5086d5443479f88b3d26390b03, type: 3}
+  miningLevel: 0
+  itemType: Staff
+  itemModel: {fileID: 1115112733328234300, guid: b15e2248e460e1b42b99071758594aaf, type: 3}
+  equipmentPrefab: {fileID: 0}
+  controller: {fileID: 9100000, guid: df40ba6d3b7ef174e9b2dfb9d726900d, type: 2}
+  isStackable: 0
+  maxStackSize: 1
+  currentStack: 0
+  amountIfCrafted: 1
+  item1: {fileID: 11400000, guid: 85be6020d69b06a4f8d53b65b77ad7f0, type: 2}
+  item2: {fileID: 11400000, guid: b17ab8cc978929f4fbe7b8a808910d0c, type: 2}
+  item3: {fileID: 0}
+  item1Amount: 3
+  item2Amount: 3
+  item3Amount: 0
+  damage: 30

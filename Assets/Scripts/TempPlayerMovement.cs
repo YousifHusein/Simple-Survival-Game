@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TempPlayerMovement : MonoBehaviour
 {
@@ -20,7 +21,17 @@ public class TempPlayerMovement : MonoBehaviour
     public float crouchYScale;
     private float startYScale;
 
-    [Header("Keybinds")]
+    [Header("Stamina")]
+    public float maxStamina = 100f;
+    public float stamina;
+    public float sprintStaminaDrain = 10f;
+    public float staminaRegenRate = 5f;
+    public Slider staminaBar;
+
+    [Header("Inventory")]
+    public HotbarInventoryManager hotbarInventoryManager;
+
+    [Header("Movement Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.LeftControl;
@@ -42,6 +53,8 @@ public class TempPlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private CapsuleCollider capsuleCollider;
 
+    private bool canSprint = true;
+
     private enum MovementState
     {
         walking,
@@ -60,6 +73,13 @@ public class TempPlayerMovement : MonoBehaviour
         capsuleCollider = GetComponentInChildren<CapsuleCollider>();
 
         startYScale = transform.localScale.y;
+
+        stamina = maxStamina;
+        if (staminaBar != null)
+        {
+            staminaBar.maxValue = maxStamina;
+            staminaBar.value = stamina;
+        }
     }
 
     private void Update()
@@ -67,6 +87,8 @@ public class TempPlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
         StateHandler();
+
+        HandleStamina();
 
         // Handle drag
         if (grounded)
@@ -118,7 +140,7 @@ public class TempPlayerMovement : MonoBehaviour
             moveSpeed = crouchSpeed;
         }
         // Sprinting
-        else if (grounded && Input.GetKey(sprintKey))
+        else if (grounded && Input.GetKey(sprintKey) && stamina > 0 && canSprint)
         {
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
@@ -133,6 +155,34 @@ public class TempPlayerMovement : MonoBehaviour
         else
         {
             state = MovementState.air;
+        }
+    }
+
+    private void HandleStamina()
+    {
+        if (state == MovementState.sprinting)
+        {
+            stamina -= sprintStaminaDrain * Time.deltaTime;
+            if (stamina <= 0)
+            {
+                stamina = 0;
+                canSprint = false;
+            }
+        }
+        else
+        {
+            stamina += staminaRegenRate * Time.deltaTime;
+            if (stamina > maxStamina) stamina = maxStamina;
+
+            if (stamina >= 30f)
+            {
+                canSprint = true;
+            }
+        }
+
+        if (staminaBar != null)
+        {
+            staminaBar.value = stamina;
         }
     }
 

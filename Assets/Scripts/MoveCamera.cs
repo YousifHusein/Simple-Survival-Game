@@ -5,9 +5,18 @@ using UnityEngine;
 public class MoveCamera : MonoBehaviour
 {
     public Transform cameraPosition;
+    public bool isInventoryOpen;
+
+    private void Awake()
+    {
+        isInventoryOpen = false;
+    }
 
     private void Update()
     {
-        transform.position = cameraPosition.position;
+        if (!isInventoryOpen)
+        {
+            transform.position = cameraPosition.position;
+        }
     }
 }

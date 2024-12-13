@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerSwing : MonoBehaviour
 {
+    public HotbarInventoryManager hotbarInventoryManager;
+
     public Animator weaponAnimator;
     public float swingCooldown = 0.5f;
     private bool canSwing = true;
-    public HotbarUIManager hotbarUIManager;
 
     public float swingRange = 2.5f;
     public LayerMask treeLayer;
@@ -16,10 +18,12 @@ public class PlayerSwing : MonoBehaviour
 
     public GameObject orientation;
 
+    public Item item;
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && canSwing && hotbarUIManager.equippedItem != null && hotbarUIManager.equippedItem.CompareTag("Tool")) 
+        if (Input.GetMouseButtonDown(0) && canSwing && hotbarInventoryManager.equippedItem != null && (hotbarInventoryManager.equippedItem.CompareTag("Tool") || hotbarInventoryManager.equippedItem.CompareTag("Sword"))) 
         {
             Swing();
         }
@@ -35,11 +39,21 @@ public class PlayerSwing : MonoBehaviour
         if (Physics.Raycast(transform.position, orientation.transform.forward, out hit, swingRange, treeLayer))
         {
             // If we hit something in the tree layer within range, apply damage
-            Tree tree = hit.collider.GetComponent<Tree>();
-            if (tree != null)
+            if (hotbarInventoryManager.equippedItem.CompareTag("Tool"))
             {
-                tree.TakeDamage(damage);  // Example: Apply 10 damage to the tree
-                Debug.Log("Tree hit!");
+                Tree tree = hit.collider.GetComponent<Tree>();
+                if (tree != null)
+                {
+                    tree.TakeDamage(damage, item);
+                }
+            }
+            if (hotbarInventoryManager.equippedItem.CompareTag("Sword"))
+            {
+                Health enemy = hit.collider.GetComponent<Health>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(damage);
+                }
             }
         }
 

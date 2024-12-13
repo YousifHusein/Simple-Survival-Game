@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: StoneAxe
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: c34df2c58df06794bba3357d5a3e06c6, type: 3}
-  itemTag: 5
+  itemTag: Tool
+  projectilePrefab: {fileID: 0}
+  miningLevel: 2
+  itemType: Axe
   itemModel: {fileID: 919132149155446097, guid: a81f965add5a24a4daa690dd8c907970, type: 3}
   equipmentPrefab: {fileID: 0}
   controller: {fileID: 9100000, guid: b61f9301f8ca4d84bbf4f04f6829dfe4, type: 2}
@@ -25,6 +28,6 @@ MonoBehaviour:
   item2: {fileID: 11400000, guid: b17ab8cc978929f4fbe7b8a808910d0c, type: 2}
   item3: {fileID: 0}
   item1Amount: 3
-  item2Amount: 2
+  item2Amount: 3
   item3Amount: 0
-  damage: 30
+  damage: 20

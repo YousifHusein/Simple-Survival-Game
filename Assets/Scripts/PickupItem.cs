@@ -7,6 +7,8 @@ public class PickupItem : MonoBehaviour
     public int amount;  // Quantity of the item
     public bool canPickup = true;
 
+    public InventoryManager inventoryManager;
+
     // Drop the item at a specific position in the world
     public void DropItem(Vector3 dropPosition)
     {
@@ -41,7 +43,7 @@ public class PickupItem : MonoBehaviour
                 return;
             }
             // Add the item to the player's inventory
-            Inventory.Singleton.SpawnInventoryItem(item, amount);
+            inventoryManager.AddItem(item, amount);
 
             // Destroy the pickup item from the world
             Destroy(gameObject);
@@ -59,6 +61,8 @@ public class DroppedItem : MonoBehaviour
 {
     private Item item;   // Reference to the item data
     private int amount;  // Amount of the item dropped
+
+    public InventoryManager inventoryManager;
 
     // Initialize the dropped item with the item data and amount
     public void Initialize(Item item, int amount)
@@ -83,7 +87,7 @@ public class DroppedItem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Add the item to the player's inventory
-            Inventory.Singleton.SpawnInventoryItem(item, amount);
+            inventoryManager.AddItem(item, amount);
 
             // Destroy this dropped item from the world
             Destroy(gameObject);

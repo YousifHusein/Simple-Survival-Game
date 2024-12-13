@@ -14,6 +14,8 @@ public class EToPickup : MonoBehaviour
     private Camera mainCamera;
     public float fadeDuration = 1.0f;
 
+    public InventoryManager inventoryManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,11 @@ public class EToPickup : MonoBehaviour
         if (pickupMessageCanvas != null)
         {
             pickupMessageCanvas.gameObject.SetActive(false);
+        }
+
+        if (inventoryManager == null)
+        {
+            inventoryManager = FindObjectOfType<InventoryManager>();
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -73,7 +80,7 @@ public class EToPickup : MonoBehaviour
 
     void Pickup()
     {
-        Inventory.Singleton.SpawnInventoryItem(item, 1);
+        inventoryManager.AddItem(item, 1);
         Destroy(gameObject);
         pickupMessageCanvas.gameObject.SetActive(false);
     }
