@@ -13,4 +13,4 @@ A survival game built in Unity, featuring resource gathering, crafting, and enem
 - **Expanding Gameplay Loop** – Refining mechanics to improve player experience.  
 
 ## **Credits**  
-- **[Yousif Husein]** – [@YousifHusein](https://github.com/YousifHusein))  
+- **Yousif Husein** – [@YousifHusein](https://github.com/YousifHusein)
