@@ -2,7 +2,7 @@
 
 A survival game built in Unity, featuring resource gathering, crafting, and enemy AI with A* pathfinding.  
 
-![Survival Game Screenshot(https://github.com/user-attachments/assets/102c1666-3748-41e2-b6cf-225cf63dc4a9)
+![Survival Game Screenshot](https://github.com/user-attachments/assets/102c1666-3748-41e2-b6cf-225cf63dc4a9)
 
 ## **Features**  
 - **Enemy AI with A* Pathfinding** – Enemies dynamically navigate the world to chase and attack the player.  
